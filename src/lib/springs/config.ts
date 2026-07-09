@@ -38,7 +38,11 @@ export const springsConfig: SpringsConfig = {
 export const isMobileDisabled = (value: boolean, viewportWidth?: number) => {
   if (typeof window === "undefined") return false;
   if (!value) return false;
-  const width =
-    viewportWidth && viewportWidth > 0 ? viewportWidth : window.innerWidth;
-  return width <= springsConfig.mobileWidth;
+  if (viewportWidth !== undefined) {
+    // `0` is the stable server/hydration snapshot from useWindowWidth. Keep
+    // animations enabled for that first render so server and client markup
+    // match, then switch after the real viewport snapshot is published.
+    return viewportWidth > 0 && viewportWidth <= springsConfig.mobileWidth;
+  }
+  return window.innerWidth <= springsConfig.mobileWidth;
 };

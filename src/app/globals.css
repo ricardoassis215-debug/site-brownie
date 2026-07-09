@@ -1,67 +1,106 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Brownie da Rô — design tokens
+   Sourced from the live brand (browniedaro.com.br): chocolate /
+   marrom logo, #FDD80D yellow accent, warm cream, near-black.
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf4ea;
+  --foreground: #2b1a10;
+
+  --brand-chocolate: #3d2417;
+  --brand-cocoa: #5c3a21;
+  --brand-caramel: #a9722f;
+  --brand-yellow: #fdd80d;
+  --brand-cream: #faf4ea;
+  --brand-ink: #1a0f08;
+
+  /* Redesign semantic tokens — madie-inspired warm palette + panel tints.
+     Raw values only here; bound to Tailwind utilities in @theme inline below. */
+  --brand-cream-warm: #f5ecd9;
+  --brand-caramel-light: #c8924a;
+  --brand-chocolate-deep: #2a1810;
+  --brand-blush: #e8d5c4;
+  --brand-sage: #8a9a7b;
+  --brand-rose: #d4a5a5;
+  --brand-amber: #f5a623;
+
+  /* Spacing & radii — premium airy rhythm.
+     Radii are bound in @theme inline so `rounded-panel` / `rounded-card` /
+     `rounded-pill` utilities generate. Section/nav spacing is consumed via
+     arbitrary values (e.g. `py-[var(--section-pad-y)]`). */
+  --section-pad-y: 8rem;
+  --section-pad-y-mobile: 5rem;
+  --radius-panel: 1.75rem;
+  --radius-card: 1.25rem;
+  --radius-pill: 9999px;
+  --nav-height: 4.5rem;
+  --shadow-pill: 0 8px 32px rgb(26 15 8 / 0.08);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-chocolate: var(--brand-chocolate);
+  --color-cocoa: var(--brand-cocoa);
+  --color-caramel: var(--brand-caramel);
+  --color-yellow: var(--brand-yellow);
+  --color-cream: var(--brand-cream);
+  --color-ink: var(--brand-ink);
+  --color-cream-warm: var(--brand-cream-warm);
+  --color-caramel-light: var(--brand-caramel-light);
+  --color-chocolate-deep: var(--brand-chocolate-deep);
+  --color-blush: var(--brand-blush);
+  --color-sage: var(--brand-sage);
+  --color-rose: var(--brand-rose);
+  --color-amber: var(--brand-amber);
+  --radius-panel: var(--radius-panel);
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
   --font-sans: var(--font-onest);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-lora);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+section[id] {
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+}
+
+/* Typographic balance — headings get balanced line breaks, body copy gets
+   pretty (ragged-right) wrapping. Applied globally so every section
+   (including the legal ContentPage views) inherits it. */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
 }
 
 @layer base {
-  /* Adaptive scaling grid — scales the root font-size with the viewport so a
-     rem-based layout stays proportional. Each breakpoint divides FONT_BASE
-     (16px) by the design base width its range was laid out at:
-       font-size: 16 * 100 / baseWidth  (vw)
-     Above 1920px the AdaptiveGrid component takes over (scale-up).
-     Keep in sync with src/components/common/grid/grid.config.ts. */
-  html {
-    font-size: 16px;
+  /* Adaptive scaling grid — divides FONT_BASE (16px) by the design base width
+     per breakpoint. Keep in sync with components/common/grid/grid.config.ts.
+     Mobile uses a continuous clamp so 640→641 no longer jumps 28px→10px. */
+  html { font-size: 16px; }
+  @media (max-width: 1920px) { html { font-size: 0.833333vw; } }
+  @media (max-width: 1440px) { html { font-size: 1.111111vw; } }
+  @media (max-width: 1024px) { html { font-size: 1.5625vw; } }
+  @media (max-width: 768px) {
+    html { font-size: clamp(15px, 4.444444vw, 18px); }
   }
 
-  @media (max-width: 1920px) {
-    html {
-      font-size: 0.833333vw; /* 16 * 100 / 1920 */
-    }
-  }
-
-  @media (max-width: 1440px) {
-    html {
-      font-size: 1.111111vw; /* 16 * 100 / 1440 */
-    }
-  }
-
-  @media (max-width: 1024px) {
-    html {
-      font-size: 1.5625vw; /* 16 * 100 / 1024 */
-    }
-  }
-
-  @media (max-width: 640px) {
-    html {
-      font-size: 4.444444vw; /* 16 * 100 / 360 */
-    }
+  /* Display headings use Lora; body copy uses Onest (set on body above). */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
   }
 }
 

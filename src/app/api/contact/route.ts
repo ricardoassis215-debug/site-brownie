@@ -4,39 +4,35 @@ import { getServerEnv } from "@/env";
 import { ApiError, handle } from "@/lib/api";
 
 /**
- * Example `app/api` endpoint — a contact / lead submission.
- *
- * Demonstrates the convention: the handler owns the work — it validates input,
- * reads a secret env var, and calls an upstream service inline. Secrets are
- * safe here because `route.ts` is never bundled to the browser.
+ * Orçamento / lead submission for Brownie da Rô.
+ * Validates input, then forwards to CONTACT_ENDPOINT when configured
+ * (CRM / webhook / e-mail service); otherwise logs server-side so the
+ * form works out of the box in dev.
  */
-
-// Request schema — kept in the route since it isn't shared. Lift to a shared
-// module only once another route needs it.
-const contactSchema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.email(),
-  message: z.string().min(1).max(2000),
+const orcamentoSchema = z.object({
+  nome: z.string().min(1).max(100),
+  whatsapp: z.string().min(8).max(30),
+  email: z.email().optional(),
+  tipo: z.enum(["pedido", "evento"]),
+  mensagem: z.string().min(1).max(2000),
 });
 
 export const POST = handle(async (req) => {
-  const input = contactSchema.parse(await req.json());
+  const input = orcamentoSchema.parse(await req.json());
 
   const { CONTACT_ENDPOINT } = getServerEnv();
 
   if (CONTACT_ENDPOINT) {
-    // Forward the lead to the configured upstream (CRM, webhook, …).
     const upstream = await fetch(CONTACT_ENDPOINT, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(input),
     });
     if (!upstream.ok) {
-      throw new ApiError(502, "upstream_error", "Failed to deliver the message.");
+      throw new ApiError(502, "upstream_error", "Falha ao enviar. Tente pelo WhatsApp.");
     }
   } else {
-    // No upstream configured — log server-side so the starter runs as-is.
-    console.log("[api/contact] submission:", input);
+    console.log("[api/contact] orçamento:", input);
   }
 
   return { received: true };

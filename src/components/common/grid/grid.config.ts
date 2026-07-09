@@ -33,7 +33,9 @@ export const GRID_BREAKPOINTS: readonly GridBreakpoint[] = [
   { maxWidth: 1920, baseWidth: 1920 },
   { maxWidth: 1440, baseWidth: 1440 },
   { maxWidth: 1024, baseWidth: 1024 },
-  { maxWidth: 640, baseWidth: 360 },
+  // Mobile uses clamp(15px, 4.444444vw, 18px) in globals.css — keep the
+  // design base at 360 so rem math stays coherent without the 640px cliff.
+  { maxWidth: 768, baseWidth: 360 },
 ];
 
 /** Largest breakpoint width — above it the root font-size scales up. */

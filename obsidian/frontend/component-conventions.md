@@ -76,3 +76,9 @@ Tailwind classes go on `className` / `innerClassName`, never into spring `from`/
 ## Related
 
 [[design-system]] · [[animation-system]] · [[new-page]] · [[templates/component-note]]
+
+---
+
+## `components/ui/` primitives (per ADR-0012)
+
+Created: 2026-07-08 — `Button` (polymorphic link/button), `Eyebrow` (small uppercase label), `SectionHeading` (TextEngine line-reveal heading, client leaf), `ColorPanel` (tone-tinted rounded panel). Barrel: `components/ui/index.ts`. See [[design-system]] *Where a style goes*.

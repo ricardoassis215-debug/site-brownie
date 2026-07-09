@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Onest } from "next/font/google";
+import { Onest, Lora } from "next/font/google";
 
 import {
   generateMetadata,
@@ -10,12 +10,19 @@ import { getSiteStructuredData } from "@/utils/seo/structured-data";
 import { LazyCookie } from "@/components/common/Cookie";
 import { AdaptiveGrid } from "@/components/common/grid";
 import { ReducedMotion } from "@/components/common/reduced-motion";
+import { GrainOverlay } from "@/components/ui/grain-overlay";
 import { ScrollLayout } from "@/layouts/scroll-layout";
 
 import "@/app/globals.css";
 
 const onest = Onest({
   variable: "--font-onest",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const lora = Lora({
+  variable: "--font-lora",
   subsets: ["latin"],
   display: "swap",
 });
@@ -29,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${onest.variable}`}>
+    <html lang="pt-br">
+      <body className={`${onest.variable} ${lora.variable}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -41,6 +48,7 @@ export default function RootLayout({
           <AdaptiveGrid />
           <ReducedMotion />
           <LazyCookie />
+          <GrainOverlay />
           {children}
         </ScrollLayout>
       </body>

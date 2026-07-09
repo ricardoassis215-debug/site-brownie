@@ -112,7 +112,7 @@ export const CookiePreferencesModal = () => {
           style={{
             transform: style.scale.to((s) => `translate(-50%, -50%) scale(${s})`),
           }}
-          className="absolute left-1/2 top-1/2 flex max-h-[calc(100dvh-1.5rem)] w-[calc(100vw-1.5rem)] max-w-[560px] flex-col gap-5 overflow-hidden rounded-xl border border-foreground/10 bg-background p-5 text-foreground shadow-2xl sm:p-7"
+          className="absolute left-1/2 top-1/2 flex max-h-[calc(100dvh-1.5rem)] w-[calc(100vw-1.5rem)] max-w-[560px] flex-col gap-5 overflow-hidden rounded-panel border border-foreground/10 bg-background p-5 text-foreground shadow-2xl sm:p-7"
         >
           <header className="flex items-start justify-between gap-3">
             <h2 id={TITLE_ID} className="text-xl font-medium leading-tight">
@@ -122,7 +122,7 @@ export const CookiePreferencesModal = () => {
               type="button"
               onClick={closeModal}
               aria-label="Close cookie preferences"
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-foreground/10 text-foreground hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border border-foreground/10 text-foreground hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
                 <path
